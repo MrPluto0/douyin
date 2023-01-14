@@ -18,7 +18,7 @@ func main() {
 	server := gin.Default()
 	server.GET("/ping", func(ctx *gin.Context) {
 		var req Request
-		err := ctx.BindJSON(&req)
+		err := ctx.ShouldBind(&req)
 		if err != nil {
 			ctx.JSON(http.StatusOK, gin.H{"msg": err.Error()})
 			return
