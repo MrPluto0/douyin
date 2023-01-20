@@ -24,6 +24,7 @@ func (u *userApi) Login(c *gin.Context) {
 			Errno: *response.ErrValidation,
 		})
 	} else {
+		// token validate
 		response.Resp(c, service.UserService.Login(req))
 	}
 }

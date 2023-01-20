@@ -1,0 +1,18 @@
+
+2023/01/21 00:03:48 D:/Document/Codes/Projects/douyin/app/models/user.go:35 record not found
+[43.294ms] [rows:0] SELECT * FROM `users` WHERE name = '123' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+
+2023/01/21 00:33:26 D:/Document/Codes/Projects/douyin/scripts/mock.go:29 Error 1364 (HY000): Field 'id' doesn't have a default value
+[111.928ms] [rows:0] INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`password`,`follow_count`,`follower_count`,`is_follow`) VALUES ('2023-01-21 00:33:26.286','2023-01-21 00:33:26.286',NULL,'Gypsophlia','123456',0,0,false)
+
+2023/01/21 00:40:38 D:/Document/Codes/Projects/douyin/scripts/mock.go:31 Error 1364 (HY000): Field 'id' doesn't have a default value
+[139.963ms] [rows:0] INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`password`,`follow_count`,`follower_count`,`is_follow`) VALUES ('2023-01-21 00:40:38.15','2023-01-21 00:40:38.15',NULL,'Gypsophlia','123456',0,0,false)
+
+2023/01/21 00:40:38 D:/Document/Codes/Projects/douyin/scripts/mock.go:34
+[error] Error 1364 (HY000): Field 'id' doesn't have a default value
+
+2023/01/21 00:41:17 D:/Document/Codes/Projects/douyin/scripts/mock.go:30 Error 1364 (HY000): Field 'id' doesn't have a default value
+[115.036ms] [rows:0] INSERT INTO `users` (`created_at`,`updated_at`,`deleted_at`,`name`,`password`,`follow_count`,`follower_count`,`is_follow`) VALUES ('2023-01-21 00:41:17.739','2023-01-21 00:41:17.739',NULL,'Gypsophlia','123456',0,0,false)
+
+2023/01/21 01:03:38 D:/Document/Codes/Projects/douyin/app/models/user.go:33 record not found
+[61.800ms] [rows:0] SELECT * FROM `users` WHERE name = 'Gypsophli' AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1

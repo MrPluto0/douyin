@@ -1,16 +1,20 @@
 package models
 
 import (
-	"fmt"
 	"sync"
 )
 
+// User Table = Gorm Model
 type User struct {
-	ID       uint   `json:"id" gorm:"primaryKey;column:id"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	CommonModel
+	Name          string
+	Password      string
+	FollowCount   int
+	FollowerCount int
+	IsFollow      bool
 }
 
+// User Dao
 type UserDao struct{}
 
 var (
@@ -25,12 +29,11 @@ func NewUserDaoInstance() *UserDao {
 	return userDao
 }
 
-func (*UserDao) QueryUser(username string) (u User, err error) {
-	err = DB.Where("username = ?", username).First(&u).Error
-	fmt.Println(username, u)
+func (uD *UserDao) QueryUser(name string) (u User, err error) {
+	err = DB.Where("name = ?", name).First(&u).Error
 	return u, err
 }
 
-func (*UserDao) CreateUser() (rowsAffected int64, err error) {
+func (uD *UserDao) CreateUser() (rowsAffected int64, err error) {
 	return 1, nil
 }

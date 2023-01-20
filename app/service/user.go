@@ -28,13 +28,13 @@ func (s *userService) Login(req define.LoginReq) define.LoginRes {
 
 	if err != nil {
 		return define.LoginRes{
-			UserId: user.ID,
-			Token:  "12",
-			Errno:  *response.OK,
+			Errno: response.ErrUserNotFound.Extend(err),
 		}
 	} else {
 		return define.LoginRes{
-			Errno: *response.ErrUserNotFound,
+			UserId: user.ID,
+			Token:  "12",
+			Errno:  *response.OK,
 		}
 	}
 }

@@ -18,7 +18,7 @@ func (r *LoginReq) Validate() (bool, error) {
 }
 
 type LoginRes struct {
-	response.Errno
-	UserId uint   `json:"user_id,omitempty"`
-	Token  string `json:"token,omitempty"`
+	response.Errno        // common struct + composition
+	UserId         uint   `json:"user_id,omitempty"`
+	Token          string `json:"token,omitempty"`
 }
