@@ -1,0 +1,23 @@
+app:
+  name: douyin
+  version: "0.0.1"
+
+server:
+  frame: "gin"
+  host: "0.0.0.0"
+  port: 8080
+
+database:
+  type: mysql
+  version: 5.7
+  dbname: douyin_demo
+  host: "43.143.145.55"
+  port: 5432
+  username: root
+  password: douyin123456
+  max_idle: 20
+  max_open: 200
+  log_path: "/logs/db.log"
+
+log:
+  expire: 60

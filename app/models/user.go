@@ -1,6 +1,9 @@
 package models
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 type User struct {
 	ID       uint   `json:"id" gorm:"primaryKey;column:id"`
@@ -22,8 +25,10 @@ func NewUserDaoInstance() *UserDao {
 	return userDao
 }
 
-func (*UserDao) QueryUser(username string) *User {
-	return &User{}
+func (*UserDao) QueryUser(username string) (u User, err error) {
+	err = DB.Where("username = ?", username).First(&u).Error
+	fmt.Println(username, u)
+	return u, err
 }
 
 func (*UserDao) CreateUser() (rowsAffected int64, err error) {

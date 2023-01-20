@@ -24,9 +24,9 @@ func (s *userService) Login(req define.LoginReq) define.LoginRes {
 
 	// Run userDao
 	dao := models.NewUserDaoInstance()
-	user := dao.QueryUser(req.Username)
+	user, err := dao.QueryUser(req.Username)
 
-	if user != nil {
+	if err != nil {
 		return define.LoginRes{
 			UserId: user.ID,
 			Token:  "12",

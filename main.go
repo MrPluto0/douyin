@@ -2,16 +2,19 @@ package main
 
 import (
 	Init "douyin/init"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 func main() {
 	r := gin.Default()
 
 	Init.InitConfig()
-	Init.InitRouter(r)
 	Init.InitMysql()
+	Init.InitRouter(r)
 
-	r.Run()
+	addr := fmt.Sprintf("%v:%v", viper.Get("server.host"), viper.Get("server.port"))
+	r.Run(addr)
 }
