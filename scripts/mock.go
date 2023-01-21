@@ -14,7 +14,7 @@ import (
 var db *gorm.DB
 
 func main() {
-	fmt.Println("----------Read Config...-------------")
+	fmt.Println("----------Read Config...------------")
 
 	Init.InitConfig()
 	Init.InitMysql()
