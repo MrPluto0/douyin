@@ -39,9 +39,9 @@ func InitMysql() {
 	dbname := config.Get("dbname")
 
 	// Create database instance
-	logPath := viper.GetString("root") + config.GetString("log_path")
 	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
 		user, pwd, host, port, dbname)
+	logPath := viper.GetString("root") + config.GetString("log_path")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: newLogger(logPath),
 	})

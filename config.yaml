@@ -6,6 +6,7 @@ server:
   frame: "gin"
   host: "0.0.0.0"
   port: 8080
+  log_path: "/logs/server.log"
 
 database:
   type: mysql

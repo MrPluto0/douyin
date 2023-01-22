@@ -13,6 +13,7 @@ func main() {
 
 	Init.InitConfig()
 	Init.InitMysql()
+	Init.InitMiddleWare(r)
 	Init.InitRouter(r)
 
 	addr := fmt.Sprintf("%v:%v", viper.Get("server.host"), viper.Get("server.port"))
