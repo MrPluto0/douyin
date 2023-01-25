@@ -22,7 +22,7 @@ func newLogger(logPath string) logger.Interface {
 		log.New(writer, "\r\n", log.LstdFlags), // io writer
 		logger.Config{
 			SlowThreshold:             time.Second, // 慢 SQL 阈值
-			LogLevel:                  logger.Warn, // 日志级别
+			LogLevel:                  logger.Info, // 日志级别
 			IgnoreRecordNotFoundError: false,
 			Colorful:                  false,
 		},

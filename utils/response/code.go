@@ -20,6 +20,7 @@ var (
 
 	// user error
 	ErrUserNotFound = &Errno{Code: 20101, Msg: "user doesn't exist."}
+	ErrPwdWrong     = &Errno{Code: 20102, Msg: "password is wrong"}
 )
 
 func (e *Errno) Error() string {
