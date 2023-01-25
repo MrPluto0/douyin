@@ -47,6 +47,7 @@ func InitRouter(r *gin.Engine) {
 		commentGroup.GET("list")
 	}
 
+	// test route for token
 	mainRouter.GET("test", func(ctx *gin.Context) {
 		if user, ok := ctx.Get("user"); !ok {
 			response.Resp(ctx, *response.ErrUserNotFound)
