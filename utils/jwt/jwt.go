@@ -39,7 +39,7 @@ func ParseToken(token string) (*UserClaims, error) {
 	})
 	if err != nil {
 		return nil, err
-	} else {
-		return jwtToken.Claims.(*UserClaims), nil
 	}
+
+	return jwtToken.Claims.(*UserClaims), nil
 }
