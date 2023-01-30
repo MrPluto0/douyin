@@ -42,4 +42,4 @@ viper.Get("new_config")
 For each finished apis, it needs to be tested. The standards are as follows:
 
 - Test all error code's examples which the apis may response.
-- Write subtest including name or notes above this line to explain this test.
+- Write notes above this line or subtest including name to explain this test.
