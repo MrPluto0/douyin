@@ -36,3 +36,10 @@ You can edit the `config.yaml` to add another setting, and use in project like t
 // learn how to use viper in go
 viper.Get("new_config")
 ```
+
+### Test
+
+For each finished apis, it needs to be tested. The standards are as follows:
+
+- Test all error code's examples which the apis may response.
+- Write subtest including name or notes above this line to explain this test.

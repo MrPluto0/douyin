@@ -1,7 +1,8 @@
 package middleware
 
 import (
-	"douyin/utils"
+	"douyin/utils/check"
+	"douyin/utils/file"
 	"fmt"
 	"io"
 	"os"
@@ -35,8 +36,8 @@ func logFormat(param gin.LogFormatterParams) string {
 func LogMiddleWare() gin.HandlerFunc {
 	once.Do(func() {
 		logPath := viper.GetString("root") + viper.GetString("server.log_path")
-		writer, err := utils.OpenFile_A(logPath)
-		utils.CheckPanicErr(err)
+		writer, err := file.OpenFile_A(logPath)
+		check.CheckPanicErr(err)
 
 		gin.DisableConsoleColor()
 		gin.DefaultWriter = io.MultiWriter(writer, os.Stdout)

@@ -1,4 +1,4 @@
-package utils
+package check
 
 func CheckPanicErr(err error) {
 	if err != nil {

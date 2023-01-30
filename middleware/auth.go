@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"douyin/utils"
+	"douyin/utils/arr"
 	"douyin/utils/jwt"
 	"douyin/utils/response"
 
@@ -17,7 +17,7 @@ var noAuthRoutes = []string{
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// noAuth
-		if utils.IsContain(c.Request.URL.Path, noAuthRoutes) {
+		if arr.IsContain(c.Request.URL.Path, noAuthRoutes) {
 			return
 		}
 

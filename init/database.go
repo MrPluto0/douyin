@@ -2,7 +2,8 @@ package init
 
 import (
 	"douyin/app/models"
-	"douyin/utils"
+	"douyin/utils/check"
+	"douyin/utils/file"
 
 	"fmt"
 	"log"
@@ -16,8 +17,8 @@ import (
 
 func newLogger(logPath string) logger.Interface {
 	// TODO: close writer
-	writer, err := utils.OpenFile_A(logPath)
-	utils.CheckPanicErr(err)
+	writer, err := file.OpenFile_A(logPath)
+	check.CheckPanicErr(err)
 	return logger.New(
 		log.New(writer, "\r\n", log.LstdFlags), // io writer
 		logger.Config{
@@ -45,11 +46,11 @@ func InitMysql() {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: newLogger(logPath),
 	})
-	utils.CheckPanicErr(err)
+	check.CheckPanicErr(err)
 
 	// Initialize sql config
 	sqlDB, err := db.DB()
-	utils.CheckPanicErr(err)
+	check.CheckPanicErr(err)
 	sqlDB.SetMaxIdleConns(config.GetInt("max_idle"))
 	sqlDB.SetMaxOpenConns(config.GetInt("max_open"))
 

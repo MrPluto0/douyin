@@ -21,7 +21,7 @@ func (u *userApi) Login(c *gin.Context) {
 
 	if err := c.ShouldBindQuery(&req); err != nil {
 		response.Resp(c, define.LoginRes{
-			Errno: *response.ErrValidation,
+			Errno: response.ErrValidation.Extend(err),
 		})
 	} else {
 		// token validate

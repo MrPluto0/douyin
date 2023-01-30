@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	r := gin.Default()
+	r := gin.New()
 
 	Init.InitConfig()
 	Init.InitMysql()

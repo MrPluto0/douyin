@@ -8,8 +8,8 @@ import (
 
 // Login API
 type LoginReq struct {
-	Username string `form:"username" binding:"required"`
-	Password string `form:"password" binding:"required"`
+	Username string `form:"username" binding:"required" url:"username"`
+	Password string `form:"password" binding:"required" url:"password"`
 }
 
 func (r *LoginReq) Validate() (bool, error) {
