@@ -4,14 +4,14 @@
 
 This is a backend project about simple-douyin of Bytedance.
 
-## Target APIS
+## APIS
 
 - [x] POST `/douyin/user/login`
 - [ ] POST `douyin/user/register`
 - [ ] GET `/douyin/user/`
 - [ ] GET `/douyin/feed`
 
-## Structure
+## How to develop
 
 ### Core
 
@@ -37,13 +37,7 @@ You can edit the `config.yaml` to add another setting, and use in project like t
 viper.Get("new_config")
 ```
 
-## How to develop
-
-### Write core code
-
-Write code in `app`
-
-### Test core code
+### Test
 
 For each finished apis, it needs to be tested in `tests` folder.
 
