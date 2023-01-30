@@ -4,14 +4,14 @@
 
 This is a backend project about simple-douyin of Bytedance.
 
-## APIS
+## Target APIS
 
 - [x] POST `/douyin/user/login`
 - [ ] POST `douyin/user/register`
 - [ ] GET `/douyin/user/`
 - [ ] GET `/douyin/feed`
 
-## How to develop
+## Structure
 
 ### Core
 
@@ -37,9 +37,19 @@ You can edit the `config.yaml` to add another setting, and use in project like t
 viper.Get("new_config")
 ```
 
-### Test
+## How to develop
 
-For each finished apis, it needs to be tested. The standards are as follows:
+### Write core code
+
+Write code in `app`
+
+### Test core code
+
+For each finished apis, it needs to be tested in `tests` folder.
+
+For each utils, it needs to be tested basicly in the same level folder.
+
+The standards are as follows:
 
 - Test all error code's examples which the apis may response.
 - Write notes above this line or subtest including name to explain this test.
