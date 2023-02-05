@@ -20,7 +20,9 @@ var (
 
 	// user error
 	ErrUserNotFound = &Errno{Code: 20101, Msg: "user doesn't exist."}
-	ErrPwdWrong     = &Errno{Code: 20102, Msg: "password is wrong"}
+	ErrPwdWrong     = &Errno{Code: 20102, Msg: "password is wrong."}
+	ErrUserExisted  = &Errno{Code: 20103, Msg: "user has existed."}
+	ErrCreateFailed = &Errno{Code: 20104, Msg: "user create failed."}
 )
 
 func (e *Errno) Error() string {
@@ -32,5 +34,13 @@ func (e *Errno) Extend(err error) Errno {
 		Code:   e.Code,
 		Msg:    e.Msg,
 		Detail: err.Error(),
+	}
+}
+
+func (e *Errno) ExtendS(s string) Errno {
+	return Errno{
+		Code:   e.Code,
+		Msg:    e.Msg,
+		Detail: s,
 	}
 }

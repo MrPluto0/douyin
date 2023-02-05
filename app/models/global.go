@@ -7,10 +7,12 @@ import (
 )
 
 type CommonModel struct {
-	ID        uint           `gorm:"AUTO_INCREMENT"`
+	ID        uint           `gorm:"primarykey"`
 	CreatedAt time.Time      `json:"-"`
 	UpdatedAt time.Time      `json:"-"`
 	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 }
+
+const EmptyID = 0
 
 var DB *gorm.DB

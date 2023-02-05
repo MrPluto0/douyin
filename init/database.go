@@ -55,7 +55,7 @@ func InitMysql() {
 	sqlDB.SetMaxOpenConns(config.GetInt("max_open"))
 
 	// Migrate Models
-	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.User{}, &models.Video{})
 
 	models.DB = db
 }

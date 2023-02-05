@@ -2,6 +2,7 @@ package init
 
 import (
 	API "douyin/app/controller"
+	"douyin/app/models"
 	"douyin/middleware"
 	"douyin/utils/response"
 
@@ -10,9 +11,9 @@ import (
 
 func InitRouter(r *gin.Engine) {
 	// Global Middleware
-	r.Use(gin.Recovery())
+	r.Use(middleware.RecoveryMiddleware())
 	r.Use(middleware.AuthMiddleware())
-	r.Use(middleware.LogMiddleWare())
+	r.Use(middleware.LogMiddleware())
 
 	mainRouter := r.Group("/douyin")
 
@@ -20,7 +21,7 @@ func InitRouter(r *gin.Engine) {
 	{
 		userGroup := mainRouter.Group("user")
 		userGroup.POST("login", API.UserApi.Login)
-		userGroup.POST("register")
+		userGroup.POST("register", API.UserApi.Register)
 		userGroup.GET("")
 	}
 
@@ -51,9 +52,11 @@ func InitRouter(r *gin.Engine) {
 	// test route for token
 	mainRouter.GET("test", func(ctx *gin.Context) {
 		if user, ok := ctx.Get("user"); !ok {
-			response.Resp(ctx, *response.ErrUserNotFound)
+			panic(*response.ErrUserNotFound)
 		} else {
-			response.Resp(ctx, user)
+			u := user.(models.User)
+			u.Name = "test panic and token"
+			panic(u)
 		}
 	})
 }

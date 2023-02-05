@@ -24,7 +24,20 @@ func (u *userApi) Login(c *gin.Context) {
 			Errno: response.ErrValidation.Extend(err),
 		})
 	} else {
-		// token validate
+		req.Validate()
 		response.Resp(c, service.UserService.Login(req))
+	}
+}
+
+func (u *userApi) Register(c *gin.Context) {
+	var req define.RegisterReq
+
+	if err := c.ShouldBindQuery(&req); err != nil {
+		response.Resp(c, define.LoginRes{
+			Errno: response.ErrValidation.Extend(err),
+		})
+	} else {
+		req.Validate()
+		response.Resp(c, service.UserService.Register(req))
 	}
 }

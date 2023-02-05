@@ -33,7 +33,7 @@ func logFormat(param gin.LogFormatterParams) string {
 	)
 }
 
-func LogMiddleWare() gin.HandlerFunc {
+func LogMiddleware() gin.HandlerFunc {
 	once.Do(func() {
 		logPath := viper.GetString("root") + viper.GetString("server.log_path")
 		writer, err := file.OpenFile_A(logPath)

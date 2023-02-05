@@ -8,7 +8,6 @@ import (
 	"fmt"
 
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 var db *gorm.DB
@@ -20,24 +19,42 @@ func main() {
 	Init.InitMysql()
 	// reset logger
 	db = models.DB
-	db.Logger = db.Logger.LogMode(logger.Silent)
+	// db.Logger = db.Logger.LogMode(logger.Silent)
 
 	fmt.Println("----------Start Mock...-------------")
 
 	mockUsers()
+	mockVideos()
+}
+
+func create[T any](model T) {
+	err := db.Create(&model).Error
+
+	if err != nil {
+		log.Error(err)
+	} else {
+		log.Info(fmt.Sprintf("create success %+v", model))
+	}
 }
 
 func mockUsers() {
 	u := models.User{
-		CommonModel: models.CommonModel{ID: 1},
-		Name:        "Gypsophlia",
-		Password:    "123456",
+		Name:     "Gypsophlia",
+		Password: "123abC",
 	}
-	err := db.Create(&u).Error
+	create(u)
+}
 
-	if err != nil {
-		log.Error(err.Error())
-	} else {
-		log.Info(fmt.Sprintf("create success %+v", u))
+func mockVideos() {
+	v := models.Video{
+		UserId:        1,
+		Title:         "123",
+		PlayUrl:       "123",
+		CoverUrl:      "123",
+		FavoriteCount: 0,
+		CommentCount:  0,
+		IsFavorite:    false,
 	}
+
+	create(v)
 }
