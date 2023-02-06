@@ -11,7 +11,7 @@ import (
 
 func InitRouter(r *gin.Engine) {
 	// Global Middleware
-	r.Use(middleware.RecoveryMiddleware())
+	r.Use(gin.Recovery())
 	r.Use(middleware.AuthMiddleware())
 	r.Use(middleware.LogMiddleware())
 

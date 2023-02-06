@@ -12,11 +12,9 @@ type LoginReq struct {
 	Password string `form:"password" binding:"required,lte=32" url:"password"`
 }
 
-func (r *LoginReq) Validate() {
+func (r *LoginReq) Validate() (bool, error) {
 	reg := regexp2.MustCompile(`(?=.*\d)(?=.*[a-z])(?=.*[A-Z])`, 0)
-	if matched, _ := reg.MatchString(r.Password); !matched {
-		panic(*response.ErrValidation)
-	}
+	return reg.MatchString(r.Password)
 }
 
 type LoginRes struct {
@@ -28,11 +26,9 @@ type LoginRes struct {
 // Register API, same as Login API
 type RegisterReq LoginReq
 
-func (r *RegisterReq) Validate() {
+func (r *RegisterReq) Validate() (bool, error) {
 	reg := regexp2.MustCompile(`(?=.*\d)(?=.*[a-z])(?=.*[A-Z])`, 0)
-	if matched, _ := reg.MatchString(r.Password); !matched {
-		panic(*response.ErrValidation)
-	}
+	return reg.MatchString(r.Password)
 }
 
 type RegisterRes LoginRes

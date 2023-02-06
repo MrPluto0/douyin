@@ -1,7 +1,6 @@
 package models
 
 import (
-	"douyin/utils/response"
 	"sync"
 )
 
@@ -30,19 +29,13 @@ func NewUserDaoInstance() *UserDao {
 	return userDao
 }
 
-func (uD *UserDao) QueryUser(name string) (u User) {
-	err := DB.Where("name = ?", name).Limit(1).Find(&u).Error
-	if err != nil {
-		panic(response.ErrDatabase.Extend(err)) // captured by middleware `gin.recovery`
-	}
-	return u
+func (uD *UserDao) QueryUser(name string) (u User, err error) {
+	err = DB.Where("name = ?", name).Limit(1).Find(&u).Error
+	return u, err
 }
 
-func (uD *UserDao) CreateUser(name string, pwd string) (rowsAffected int64) {
+func (uD *UserDao) CreateUser(name string, pwd string) (rowsAffected int64, err error) {
 	user := User{Name: name, Password: pwd}
 	result := DB.Create(&user)
-	if result.Error != nil {
-		panic(response.ErrDatabase.Extend(result.Error))
-	}
-	return result.RowsAffected
+	return result.RowsAffected, result.Error
 }

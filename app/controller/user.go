@@ -24,7 +24,6 @@ func (u *userApi) Login(c *gin.Context) {
 			Errno: response.ErrValidation.Extend(err),
 		})
 	} else {
-		req.Validate()
 		response.Resp(c, service.UserService.Login(req))
 	}
 }
@@ -37,7 +36,6 @@ func (u *userApi) Register(c *gin.Context) {
 			Errno: response.ErrValidation.Extend(err),
 		})
 	} else {
-		req.Validate()
 		response.Resp(c, service.UserService.Register(req))
 	}
 }

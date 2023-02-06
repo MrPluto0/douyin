@@ -16,9 +16,20 @@ func init() {
 }
 
 func (s *userService) Login(req define.LoginReq) define.LoginRes {
+	if matched, _ := req.Validate(); !matched {
+		return define.LoginRes{
+			Errno: *response.ErrValidation,
+		}
+	}
+
 	// Run userDao
 	dao := models.NewUserDaoInstance()
-	user := dao.QueryUser(req.Username)
+	user, err := dao.QueryUser(req.Username)
+	if err != nil {
+		return define.LoginRes{
+			Errno: response.ErrDatabase.Extend(err),
+		}
+	}
 
 	// Core
 	if req.Password != user.Password {
@@ -44,19 +55,17 @@ func (s *userService) Login(req define.LoginReq) define.LoginRes {
 }
 
 func (s *userService) Register(req define.RegisterReq) define.RegisterRes {
-	dao := models.NewUserDaoInstance()
-	user := dao.QueryUser(req.Username)
-
-	if user.ID != models.EmptyID {
+	if matched, _ := req.Validate(); !matched {
 		return define.RegisterRes{
-			Errno: *response.ErrUserExisted,
+			Errno: *response.ErrValidation,
 		}
 	}
 
-	rows := dao.CreateUser(req.Username, req.Password)
-	if rows != 1 {
+	dao := models.NewUserDaoInstance()
+	_, err := dao.CreateUser(req.Username, req.Password)
+	if err != nil {
 		return define.RegisterRes{
-			Errno: *response.ErrCreateFailed,
+			Errno: response.ErrCreateUser.Extend(err),
 		}
 	}
 
