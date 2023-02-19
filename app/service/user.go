@@ -24,7 +24,7 @@ func (s *userService) Login(req define.LoginReq) define.LoginRes {
 
 	// Run userDao
 	dao := models.NewUserDaoInstance()
-	user, err := dao.QueryUser(req.Username)
+	user, err := dao.QueryUserByName(req.Username)
 	if err != nil {
 		return define.LoginRes{
 			Errno: response.ErrDatabase.Extend(err),
@@ -73,5 +73,20 @@ func (s *userService) Register(req define.RegisterReq) define.RegisterRes {
 		UserId: 0,
 		Token:  "123",
 		Errno:  *response.OK,
+	}
+}
+
+func (s *userService) UserInfo(req define.UserInfoReq) define.UserInfoRes {
+	dao := models.NewUserDaoInstance()
+	user, err := dao.QueryUserById(req.UserId)
+	if err != nil {
+		return define.UserInfoRes{
+			Errno: response.ErrDatabase.Extend(err),
+		}
+	}
+
+	return define.UserInfoRes{
+		Errno: *response.OK,
+		User:  user,
 	}
 }

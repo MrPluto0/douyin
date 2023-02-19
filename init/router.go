@@ -22,7 +22,7 @@ func InitRouter(r *gin.Engine) {
 		userGroup := mainRouter.Group("user")
 		userGroup.POST("login", API.UserApi.Login)
 		userGroup.POST("register", API.UserApi.Register)
-		userGroup.GET("")
+		userGroup.GET("", API.UserApi.UserInfo)
 	}
 
 	// Feed
@@ -51,12 +51,11 @@ func InitRouter(r *gin.Engine) {
 
 	// test route for token
 	mainRouter.GET("test", func(ctx *gin.Context) {
-		if user, ok := ctx.Get("user"); !ok {
-			panic(*response.ErrUserNotFound)
-		} else {
+		if user, ok := ctx.Get("user"); ok {
 			u := user.(models.User)
-			u.Name = "test panic and token"
-			panic(u)
+			response.Resp(ctx, u)
+		} else {
+			response.Resp(ctx, response.ErrToken)
 		}
 	})
 }

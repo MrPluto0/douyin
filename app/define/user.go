@@ -1,6 +1,7 @@
 package define
 
 import (
+	"douyin/app/models"
 	"douyin/utils/response"
 
 	"github.com/dlclark/regexp2"
@@ -32,3 +33,14 @@ func (r *RegisterReq) Validate() (bool, error) {
 }
 
 type RegisterRes LoginRes
+
+// User Info API
+type UserInfoReq struct {
+	UserId uint   `form:"user_id" binding:"required" url:"user_id"`
+	Token  string `form:"token" binding:"required" url:"token"`
+}
+
+type UserInfoRes struct {
+	response.Errno
+	User models.User `json:"user,omitempty"`
+}

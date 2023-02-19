@@ -39,3 +39,15 @@ func (u *userApi) Register(c *gin.Context) {
 		response.Resp(c, service.UserService.Register(req))
 	}
 }
+
+func (u *userApi) UserInfo(c *gin.Context) {
+	var req define.UserInfoReq
+
+	if err := c.ShouldBindQuery(&req); err != nil {
+		response.Resp(c, define.UserInfoRes{
+			Errno: response.ErrValidation.Extend(err),
+		})
+	} else {
+		response.Resp(c, service.UserService.UserInfo(req))
+	}
+}
