@@ -7,7 +7,7 @@ import (
 // User Table = Gorm Model
 type User struct {
 	CommonModel
-	Name            string `json:"name" gorm:"type:varchar(32);not null;unique;index:name_idx"`
+	Name            string `json:"name" gorm:"type:varchar(32);not null;uniqueIndex"`
 	Password        string `json:"-" gorm:"type:varchar(32);not null"`
 	FollowCount     int    `json:"follow_count"`
 	FollowerCount   int    `json:"follower_count"`
@@ -38,6 +38,12 @@ func NewUserDaoInstance() *UserDao {
 func (uD *UserDao) QueryByName(name string) (u User, err error) {
 	// if user not found, err occurs
 	err = DB.Where("name = ?", name).First(&u).Error
+	return u, err
+}
+
+// This function is for benchmark
+func (uD *UserDao) QueryByPwd(pwd string) (u User, err error) {
+	err = DB.Where("password = ?", pwd).First(&u).Error
 	return u, err
 }
 

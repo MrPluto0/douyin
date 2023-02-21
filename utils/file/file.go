@@ -8,5 +8,5 @@ import (
 func OpenFile_A(path string) (*os.File, error) {
 	dir, _ := filepath.Split(path)
 	os.MkdirAll(dir, os.ModePerm)
-	return os.OpenFile(path, os.O_CREATE|os.O_APPEND, 0666)
+	return os.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 }

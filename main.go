@@ -4,12 +4,16 @@ import (
 	Init "douyin/init"
 	"fmt"
 
+	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 )
 
 func main() {
+	// gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
+
+	pprof.Register(r)
 
 	Init.InitConfig()
 	Init.InitMysql()

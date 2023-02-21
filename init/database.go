@@ -45,7 +45,9 @@ func InitMysql() {
 		user, pwd, host, port, dbname)
 	logPath := viper.GetString("root") + config.GetString("log_path")
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		Logger: newLogger(logPath),
+		Logger:                 newLogger(logPath),
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
 	})
 	check.CheckPanicErr(err)
 

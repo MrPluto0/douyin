@@ -9,6 +9,24 @@ import (
 	"testing"
 )
 
+func BenchmarkSearchByName(b *testing.B) {
+	dao := models.NewUserDaoInstance()
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		dao.QueryByName("AFgCMP")
+	}
+}
+
+func BenchmarkSearchById(b *testing.B) {
+	dao := models.NewUserDaoInstance()
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		dao.QueryByPwd("AAgjTFjB2")
+	}
+}
+
 func TestLogin(t *testing.T) {
 	e := NewHttpExcept(t)
 

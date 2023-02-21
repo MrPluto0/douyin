@@ -14,6 +14,7 @@ import (
 )
 
 var db *gorm.DB
+var userTotal = 10000
 
 func main() {
 	fmt.Println("----------Read Config...------------")
@@ -24,8 +25,8 @@ func main() {
 
 	fmt.Println("----------Start Mock...-------------")
 
-	// mockUsers()
-	mockVideos()
+	mockUsers()
+	// mockVideos()
 }
 
 func create[T any](model T) {
@@ -51,12 +52,12 @@ func randStr(length int) string {
 
 func mockUsers() {
 	var wg sync.WaitGroup
-	wg.Add(50)
-	for i := 0; i < 50; i++ {
+	wg.Add(userTotal)
+	for i := 0; i < userTotal; i++ {
 		go func() {
 			create(models.User{
-				Name:     randStr(9),
-				Password: randStr(9),
+				Name:     randStr(6),
+				Password: randStr(6),
 			})
 			wg.Done()
 		}()

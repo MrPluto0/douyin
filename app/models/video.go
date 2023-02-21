@@ -2,19 +2,21 @@ package models
 
 import (
 	"sync"
+	"time"
 )
 
 // Table = Gorm Model
 type Video struct {
 	CommonModel
-	User          User   `json:"auther" gorm:"foreignKey:UserId"`
-	UserId        int    `json:"user_id"`
-	Title         string `json:"title"`
-	PlayUrl       string `json:"play_url"`
-	CoverUrl      string `json:"cover_url"`
-	FavoriteCount int    `json:"favorite_count"`
-	CommentCount  int    `json:"comment_count"`
-	IsFavorite    bool   `json:"is_favorite"`
+	CreatedAt     time.Time `json:"-" gorm:"index"`
+	User          User      `json:"auther" gorm:"foreignKey:UserId"`
+	UserId        int       `json:"user_id"`
+	Title         string    `json:"title"`
+	PlayUrl       string    `json:"play_url"`
+	CoverUrl      string    `json:"cover_url"`
+	FavoriteCount int       `json:"favorite_count"`
+	CommentCount  int       `json:"comment_count"`
+	IsFavorite    bool      `json:"is_favorite"`
 }
 
 // User Dao
@@ -36,5 +38,5 @@ func NewVideoDaoInstance() *VideoDao {
 
 func (vD *VideoDao) QueryByCreateTime(createdAt string) (videos []Video, err error) {
 	err = DB.Order("created_at desc").Limit(VIDEO_LIMIT).Where("created_at <= ?", createdAt).Find(&videos).Error
-	return videos, err
+	return []Video{}, err
 }
