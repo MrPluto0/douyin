@@ -8,7 +8,7 @@ import (
 type Video struct {
 	CommonModel
 	User          User   `json:"auther" gorm:"foreignKey:UserId"`
-	UserId        int    `json:"-"`
+	UserId        int    `json:"user_id"`
 	Title         string `json:"title"`
 	PlayUrl       string `json:"play_url"`
 	CoverUrl      string `json:"cover_url"`

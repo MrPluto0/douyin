@@ -7,7 +7,7 @@ import (
 
 type FeedReq struct {
 	Token      string `form:"token"  url:"token"`
-	LatestTime *int64 `form:"latest_time"  url:"latest_time"`
+	LatestTime int64  `form:"latest_time"  url:"latest_time"`
 }
 
 type FeedRes struct {

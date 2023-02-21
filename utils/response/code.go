@@ -19,9 +19,8 @@ var (
 	ErrToken      = &Errno{Code: 10003, Msg: "Error occurred while signing the JSON web token."}
 
 	// user error
-	ErrUserNotFound = &Errno{Code: 20101, Msg: "user doesn't exist."}
-	ErrPwdWrong     = &Errno{Code: 20102, Msg: "password is wrong."}
-	ErrCreateUser   = &Errno{Code: 20104, Msg: "user create failed."}
+	ErrPwdWrong   = &Errno{Code: 20101, Msg: "password is wrong."}
+	ErrCreateUser = &Errno{Code: 20102, Msg: "user create failed."}
 )
 
 func (e *Errno) Error() string {

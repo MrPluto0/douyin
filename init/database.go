@@ -9,6 +9,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -58,4 +59,32 @@ func InitMysql() {
 	db.AutoMigrate(&models.User{}, &models.Video{})
 
 	models.DB = db
+}
+
+// not used yet
+func InitMockMysql() {
+	db, mock, err := sqlmock.New()
+	if err != nil {
+		log.Fatalf("Init sqlmock failed, err %v", err)
+	}
+	defer db.Close()
+
+	// mock sql
+	mock.ExpectBegin()
+	mock.ExpectExec("CREATE users").WillReturnResult(sqlmock.NewResult(1, 1))
+
+	// create gorm db
+	gormDB, err := gorm.Open(mysql.New(mysql.Config{
+		Conn:                      db,
+		SkipInitializeWithVersion: true,
+	}), &gorm.Config{})
+
+	if err != nil {
+		log.Fatalf("Init DB with sqlmock failed, err %v", err)
+	}
+
+	// Migrate Models
+	gormDB.AutoMigrate(&models.User{}, &models.Video{})
+
+	models.DB = gormDB
 }

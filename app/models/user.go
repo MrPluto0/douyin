@@ -36,12 +36,13 @@ func NewUserDaoInstance() *UserDao {
 }
 
 func (uD *UserDao) QueryByName(name string) (u User, err error) {
-	err = DB.Where("name = ?", name).Limit(1).Find(&u).Error
+	// if user not found, err occurs
+	err = DB.Where("name = ?", name).First(&u).Error
 	return u, err
 }
 
 func (uD *UserDao) QueryById(id uint) (u User, err error) {
-	err = DB.Find(&u, id).Error
+	err = DB.First(&u, id).Error
 	return u, err
 }
 
@@ -49,4 +50,8 @@ func (uD *UserDao) Create(name string, pwd string) (rowsAffected int64, err erro
 	user := User{Name: name, Password: pwd}
 	result := DB.Create(&user)
 	return result.RowsAffected, result.Error
+}
+
+func (uD *UserDao) Delete(name string) error {
+	return DB.Where("name = ?", name).Delete(&User{}).Error
 }

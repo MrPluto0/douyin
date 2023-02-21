@@ -19,10 +19,10 @@ func init() {
 
 func (v *videoService) Feed(req define.FeedReq) define.FeedRes {
 	var createdAt string
-	if req.LatestTime == nil {
+	if req.LatestTime == 0 {
 		createdAt = time.Now().Format(FMT)
 	} else {
-		createdAt = time.Unix(*req.LatestTime, 0).Format(FMT)
+		createdAt = time.Unix(req.LatestTime, 0).Format(FMT)
 	}
 
 	dao := models.NewVideoDaoInstance()
