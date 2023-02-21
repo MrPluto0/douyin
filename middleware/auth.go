@@ -8,16 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var noAuthRoutes = []string{
-	"/douyin/feed",
-	"/douyin/user/login",
-	"/douyin/user/register",
+var AuthRoutes = []string{
+	"/douyin/user",
 }
 
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// noAuth
-		if arr.IsContain(c.Request.URL.Path, noAuthRoutes) {
+		if !arr.IsContain(c.Request.URL.Path, AuthRoutes) {
 			return
 		}
 

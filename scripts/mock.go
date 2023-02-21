@@ -4,6 +4,9 @@ import (
 	"douyin/app/models"
 	Init "douyin/init"
 	"douyin/utils/log"
+	"math/rand"
+	"sync"
+	"time"
 
 	"fmt"
 
@@ -17,13 +20,11 @@ func main() {
 
 	Init.InitConfig()
 	Init.InitMysql()
-	// reset logger
 	db = models.DB
-	// db.Logger = db.Logger.LogMode(logger.Silent)
 
 	fmt.Println("----------Start Mock...-------------")
 
-	mockUsers()
+	// mockUsers()
 	mockVideos()
 }
 
@@ -33,28 +34,56 @@ func create[T any](model T) {
 	if err != nil {
 		log.Error(err)
 	} else {
-		log.Info(fmt.Sprintf("create success %+v", model))
+		log.Info(fmt.Sprintf("create success %+v\n", model))
 	}
+}
+
+func randStr(length int) string {
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	rand.Seed(time.Now().UnixNano() + int64(rand.Intn(100)))
+	for i := 0; i < length; i++ {
+		result = append(result, bytes[rand.Intn(len(bytes))])
+	}
+	return string(result)
 }
 
 func mockUsers() {
-	u := models.User{
-		Name:     "Gypsophlia",
-		Password: "123abC",
+	var wg sync.WaitGroup
+	wg.Add(50)
+	for i := 0; i < 50; i++ {
+		go func() {
+			create(models.User{
+				Name:     randStr(9),
+				Password: randStr(9),
+			})
+			wg.Done()
+		}()
 	}
-	create(u)
+	wg.Wait()
 }
 
 func mockVideos() {
-	v := models.Video{
-		UserId:        1,
-		Title:         "123",
-		PlayUrl:       "123",
-		CoverUrl:      "123",
-		FavoriteCount: 0,
-		CommentCount:  0,
-		IsFavorite:    false,
+	var wg sync.WaitGroup
+	wg.Add(1000)
+	for i := 0; i < 1000; i++ {
+		t, _ := time.ParseDuration(fmt.Sprintf("-%dm", i))
+		go func() {
+			create(models.Video{
+				CommonModel: models.CommonModel{
+					CreatedAt: time.Now().Add(t),
+				},
+				Title:         randStr(6),
+				PlayUrl:       "/static/video/1.mp4",
+				CoverUrl:      "/static/img/1_cover.png",
+				FavoriteCount: rand.Intn(10000),
+				CommentCount:  rand.Intn(1000),
+				IsFavorite:    false,
+				UserId:        rand.Intn(50),
+			})
+			wg.Done()
+		}()
 	}
-
-	create(v)
+	wg.Wait()
 }

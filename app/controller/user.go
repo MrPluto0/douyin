@@ -2,6 +2,7 @@ package controller
 
 import (
 	"douyin/app/define"
+	"douyin/app/models"
 	"douyin/app/service"
 	"douyin/utils/response"
 
@@ -47,7 +48,17 @@ func (u *userApi) UserInfo(c *gin.Context) {
 		response.Resp(c, define.UserInfoRes{
 			Errno: response.ErrValidation.Extend(err),
 		})
-	} else {
-		response.Resp(c, service.UserService.UserInfo(req))
+		return
 	}
+
+	userAny, _ := c.Get("user")
+	user := userAny.(models.User)
+	if user.ID != req.UserId {
+		response.Resp(c, define.UserInfoRes{
+			Errno: *response.ErrToken,
+		})
+		return
+	}
+
+	response.Resp(c, service.UserService.UserInfo(req))
 }

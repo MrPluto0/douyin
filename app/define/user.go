@@ -42,5 +42,5 @@ type UserInfoReq struct {
 
 type UserInfoRes struct {
 	response.Errno
-	User models.User `json:"user,omitempty"`
+	User *models.User `json:"user,omitempty"` // omitempty is useful for pointer
 }

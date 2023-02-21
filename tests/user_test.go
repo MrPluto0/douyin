@@ -38,3 +38,19 @@ func TestLogin(t *testing.T) {
 		ContainsKey("user_id").
 		ContainsKey("token")
 }
+
+func TestRegister(t *testing.T) {
+	e := NewHttpExcept(t)
+
+	e.POST("/douyin/user/register").WithQueryObject(define.RegisterReq{Username: "Node", Password: "123abC"}).
+		Expect().Status(http.StatusOK).JSON().Object().
+		ValueEqual("status_code", response.ErrCreateUser.Code)
+
+	e.POST("/douyin/user/register").WithQueryObject(define.RegisterReq{Username: "abc", Password: "123abc"}).
+		Expect().Status(http.StatusOK).JSON().Object().
+		ValueEqual("status_code", response.ErrCreateUser.Code)
+
+	e.POST("/douyin/user/register").WithQueryObject(define.RegisterReq{Username: "abc", Password: "123Abc"}).
+		Expect().Status(http.StatusOK).JSON().Object().
+		ValueEqual("status_code", response.OK.Code)
+}

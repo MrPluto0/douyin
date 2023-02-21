@@ -2,9 +2,7 @@ package init
 
 import (
 	API "douyin/app/controller"
-	"douyin/app/models"
 	"douyin/middleware"
-	"douyin/utils/response"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,6 +12,8 @@ func InitRouter(r *gin.Engine) {
 	r.Use(gin.Recovery())
 	r.Use(middleware.AuthMiddleware())
 	r.Use(middleware.LogMiddleware())
+
+	r.Static("/static", "./assets")
 
 	mainRouter := r.Group("/douyin")
 
@@ -26,7 +26,7 @@ func InitRouter(r *gin.Engine) {
 	}
 
 	// Feed
-	mainRouter.GET("feed")
+	mainRouter.GET("feed", API.VideoApi.Feed)
 
 	// Publish Group
 	{
@@ -48,14 +48,4 @@ func InitRouter(r *gin.Engine) {
 		commentGroup.POST("action")
 		commentGroup.GET("list")
 	}
-
-	// test route for token
-	mainRouter.GET("test", func(ctx *gin.Context) {
-		if user, ok := ctx.Get("user"); ok {
-			u := user.(models.User)
-			response.Resp(ctx, u)
-		} else {
-			response.Resp(ctx, response.ErrToken)
-		}
-	})
 }

@@ -7,45 +7,45 @@ import (
 // User Table = Gorm Model
 type User struct {
 	CommonModel
-	Name            string `gorm:"type:varchar(32);not null;unique;index:name_idx"`
-	Password        string `gorm:"type:varchar(32);not null" json:"-"`
-	FollowCount     int
-	FollowerCount   int
-	IsFollow        bool
-	Avatar          string
-	BackgroundImage string
-	Signature       string
-	TotalFavorited  string
-	WorkCount       string
-	FavoriteCount   string
+	Name            string `json:"name" gorm:"type:varchar(32);not null;unique;index:name_idx"`
+	Password        string `json:"-" gorm:"type:varchar(32);not null"`
+	FollowCount     int    `json:"follow_count"`
+	FollowerCount   int    `json:"follower_count"`
+	IsFollow        bool   `json:"is_follow"`
+	Avatar          string `json:"avatar"`
+	BackgroundImage string `json:"background_image"`
+	Signature       string `json:"signature"`
+	TotalFavorited  string `json:"total_favorited"`
+	WorkCount       string `json:"work_count"`
+	FavoriteCount   string `json:"favorite_count"`
 }
 
 // User Dao
 type UserDao struct{}
 
 var (
-	userDao *UserDao
-	once    sync.Once
+	userDao  *UserDao
+	userOnce sync.Once
 )
 
 func NewUserDaoInstance() *UserDao {
-	once.Do(func() {
+	userOnce.Do(func() {
 		userDao = &UserDao{}
 	})
 	return userDao
 }
 
-func (uD *UserDao) QueryUserByName(name string) (u User, err error) {
+func (uD *UserDao) QueryByName(name string) (u User, err error) {
 	err = DB.Where("name = ?", name).Limit(1).Find(&u).Error
 	return u, err
 }
 
-func (uD *UserDao) QueryUserById(id uint) (u User, err error) {
+func (uD *UserDao) QueryById(id uint) (u User, err error) {
 	err = DB.Find(&u, id).Error
 	return u, err
 }
 
-func (uD *UserDao) CreateUser(name string, pwd string) (rowsAffected int64, err error) {
+func (uD *UserDao) Create(name string, pwd string) (rowsAffected int64, err error) {
 	user := User{Name: name, Password: pwd}
 	result := DB.Create(&user)
 	return result.RowsAffected, result.Error
