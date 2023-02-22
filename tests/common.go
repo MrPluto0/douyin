@@ -15,6 +15,7 @@ func init() {
 	gin.SetMode(gin.TestMode)
 	engine = gin.New()
 	Init.InitConfig()
+	Init.InitRedis()
 	Init.InitMysql()
 	Init.InitRouter(engine)
 }

@@ -1,6 +1,7 @@
 package init
 
 import (
+	"context"
 	"douyin/app/models"
 	"douyin/utils/check"
 	"douyin/utils/file"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -61,6 +63,25 @@ func InitMysql() {
 	db.AutoMigrate(&models.User{}, &models.Video{})
 
 	models.DB = db
+}
+
+func InitRedis() {
+	config := viper.Sub("redis")
+	addr := config.GetString("host") + ":" + config.GetString("port")
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     addr,
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+
+	err := rdb.Set(ctx, "test", "1", 0).Err()
+	if err != nil {
+		panic(err)
+	}
+
+	models.Redis = rdb
 }
 
 // not used yet

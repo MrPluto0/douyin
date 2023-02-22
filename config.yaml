@@ -20,5 +20,9 @@ database:
   max_open: 200
   log_path: "/logs/db.log"
 
+redis:
+  host: "43.143.145.55"
+  port: 6379
+
 log:
   expire: 60

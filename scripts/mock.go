@@ -25,8 +25,8 @@ func main() {
 
 	fmt.Println("----------Start Mock...-------------")
 
-	mockUsers()
-	// mockVideos()
+	// mockUsers()
+	mockVideos()
 }
 
 func create[T any](model T) {

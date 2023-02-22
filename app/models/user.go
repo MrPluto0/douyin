@@ -1,7 +1,10 @@
 package models
 
 import (
+	"context"
+	"encoding/json"
 	"sync"
+	"time"
 )
 
 // User Table = Gorm Model
@@ -26,6 +29,8 @@ type UserDao struct{}
 var (
 	userDao  *UserDao
 	userOnce sync.Once
+	ctx      = context.Background()
+	expire   = time.Hour * 24
 )
 
 func NewUserDaoInstance() *UserDao {
@@ -36,8 +41,20 @@ func NewUserDaoInstance() *UserDao {
 }
 
 func (uD *UserDao) QueryByName(name string) (u User, err error) {
-	// if user not found, err occurs
-	err = DB.Where("name = ?", name).First(&u).Error
+	userKey := "user-" + name
+	userStr, err := Redis.Get(ctx, userKey).Result()
+
+	if err != nil {
+		// if user not found, err occurs
+		err = DB.Where("name = ?", name).First(&u).Error
+		if err == nil {
+			userByte, _ := json.Marshal(u)
+			err = Redis.Set(ctx, userKey, string(userByte), expire).Err()
+		}
+	} else {
+		err = json.Unmarshal([]byte(userStr), &u)
+	}
+
 	return u, err
 }
 

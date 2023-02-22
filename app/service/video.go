@@ -27,6 +27,7 @@ func (v *videoService) Feed(req define.FeedReq) define.FeedRes {
 
 	dao := models.NewVideoDaoInstance()
 	videos, err := dao.QueryByCreateTime(createdAt)
+
 	if err != nil {
 		return define.FeedRes{
 			Errno: response.ErrDatabase.Extend(err),

@@ -17,6 +17,7 @@ func main() {
 
 	Init.InitConfig()
 	Init.InitMysql()
+	Init.InitRedis()
 	Init.InitRouter(r)
 
 	addr := fmt.Sprintf("%v:%v", viper.Get("server.host"), viper.Get("server.port"))
