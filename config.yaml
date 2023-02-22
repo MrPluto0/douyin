@@ -12,7 +12,7 @@ database:
   type: mysql
   version: 5.7
   dbname: douyin_demo
-  host: "43.143.145.55"
+  host: "127.0.0.1" # 43.143.145.55
   port: 5432
   username: root
   password: douyin123456
@@ -21,7 +21,7 @@ database:
   log_path: "/logs/db.log"
 
 redis:
-  host: "43.143.145.55"
+  host: "127.0.0.1"
   port: 6379
 
 log:

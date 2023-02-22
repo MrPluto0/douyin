@@ -45,8 +45,7 @@ func (uD *UserDao) QueryByName(name string) (u User, err error) {
 	userStr, err := Redis.Get(ctx, userKey).Result()
 
 	if err != nil {
-		// if user not found, err occurs
-		err = DB.Where("name = ?", name).First(&u).Error
+		err = DB.Where("name = ?", name).First(&u).Error // if user not found, err occurs
 		if err == nil {
 			userByte, _ := json.Marshal(u)
 			err = Redis.Set(ctx, userKey, string(userByte), expire).Err()

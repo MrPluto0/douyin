@@ -38,5 +38,5 @@ func NewVideoDaoInstance() *VideoDao {
 
 func (vD *VideoDao) QueryByCreateTime(createdAt string) (videos []Video, err error) {
 	err = DB.Order("created_at desc").Limit(VIDEO_LIMIT).Where("created_at <= ?", createdAt).Find(&videos).Error
-	return []Video{}, err
+	return videos, err
 }
