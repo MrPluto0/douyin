@@ -7,9 +7,9 @@ This is a backend project about simple-douyin of Bytedance.
 ## APIS
 
 - [x] POST `/douyin/user/login`
-- [ ] POST `douyin/user/register`
-- [ ] GET `/douyin/user/`
-- [ ] GET `/douyin/feed`
+- [x] POST `douyin/user/register`
+- [x] GET `/douyin/user/`
+- [x] GET `/douyin/feed`
 
 ## How to develop
 

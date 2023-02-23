@@ -1,10 +1,8 @@
 package models
 
 import (
-	"context"
-	"encoding/json"
+	"fmt"
 	"sync"
-	"time"
 )
 
 // User Table = Gorm Model
@@ -29,8 +27,6 @@ type UserDao struct{}
 var (
 	userDao  *UserDao
 	userOnce sync.Once
-	ctx      = context.Background()
-	expire   = time.Hour * 24
 )
 
 func NewUserDaoInstance() *UserDao {
@@ -41,30 +37,24 @@ func NewUserDaoInstance() *UserDao {
 }
 
 func (uD *UserDao) QueryByName(name string) (u User, err error) {
-	userKey := "user-" + name
-	userStr, err := Redis.Get(ctx, userKey).Result()
+	userKey := "username-" + name
+	err = ReadRedis(userKey, &u, func(value *User) error {
+		return DB.Where("name = ?", name).First(&value).Error // if user not found, err occurs
+	})
+	return u, err
+}
 
-	if err != nil {
-		err = DB.Where("name = ?", name).First(&u).Error // if user not found, err occurs
-		if err == nil {
-			userByte, _ := json.Marshal(u)
-			err = Redis.Set(ctx, userKey, string(userByte), expire).Err()
-		}
-	} else {
-		err = json.Unmarshal([]byte(userStr), &u)
-	}
-
+func (uD *UserDao) QueryById(id uint) (u User, err error) {
+	userKey := fmt.Sprintf("userid-%d", id)
+	err = ReadRedis(userKey, &u, func(value *User) error {
+		return DB.First(&value, id).Error
+	})
 	return u, err
 }
 
 // This function is for benchmark
 func (uD *UserDao) QueryByPwd(pwd string) (u User, err error) {
 	err = DB.Where("password = ?", pwd).First(&u).Error
-	return u, err
-}
-
-func (uD *UserDao) QueryById(id uint) (u User, err error) {
-	err = DB.First(&u, id).Error
 	return u, err
 }
 

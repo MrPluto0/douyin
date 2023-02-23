@@ -34,6 +34,12 @@ func (v *videoService) Feed(req define.FeedReq) define.FeedRes {
 		}
 	}
 
+	uDao := models.NewUserDaoInstance()
+	for i := range videos {
+		u, _ := uDao.QueryById(uint(videos[i].UserId))
+		videos[i].User = u
+	}
+
 	var nextTime int64
 	if len(videos) == 0 {
 		nextTime = time.Now().Unix()
