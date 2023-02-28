@@ -64,8 +64,38 @@ The standards are as follows:
 
 #### Benchmark
 
-For some modules, you can write benchmark in test files. Such as redis's benchmark.
+For some modules, you can write benchmark in test files. Such as redis and mysql benchmark.
+
+```bash
+goos: linux
+goarch: amd64
+pkg: douyin/tests
+cpu: Intel(R) Xeon(R) Platinum 8255C CPU @ 2.50GHz
+BenchmarkRedis
+BenchmarkRedis-4   	   10000	    112403 ns/op	     188 B/op	       7 allocs/op
+BenchmarkMysql
+BenchmarkMysql-4   	    3570	    300697 ns/op	    9013 B/op	     134 allocs/op
+PASS
+ok  	douyin/tests	2.291s
+```
 
 #### Pressure Test
 
-You can test the QPS by some tools, such as `ab`.
+You can test the QPS by some tools, such as `ab`/`wrk`/...
+
+The folder `wrk` is several scripts of `lua`, used to presssure tests.
+
+Run the command in bash: `wrk -t12 -c400 -d10s -T30 -s ./wrk/login.lua http://127.0.0.1:8080`
+
+Here is the result:
+
+```bash
+Running 10s test @ http://127.0.0.1:8080
+  12 threads and 400 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency    45.82ms   19.46ms 229.79ms   80.51%
+    Req/Sec   733.62    134.87     1.19k    81.42%
+  87715 requests in 10.09s, 14.89MB read
+Requests/sec:   8694.54
+Transfer/sec:      1.48MB
+```
