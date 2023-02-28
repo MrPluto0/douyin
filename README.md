@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is a backend project about simple-douyin of Bytedance.
+This is a backend project about simple-douyin of Bytedance, using `gin` `gorm` and so on.
 
 ## APIS
 
@@ -28,6 +28,18 @@ From top to bottom layers: `Router -> Controller -> Service(define) -> Dao -> Mo
 
 Database is initialized in `/init/database.go`.
 
+#### Mysql
+
+The main database is `mysql`, storing all persistent data. Its control is integrated in `gorm`.
+
+Tips: you can create your datatables in database by `gorm.AutoMigrate(...)`
+
+#### Redis
+
+The cache database is `redis` in which data react quickly. But it's just used in api `GET /douyin/user`.
+
+You can run benchmark in `/tests/redis_test.go` to see the performance.
+
 ### Config
 
 You can edit the `config.yaml` to add another setting, and use in project like this:
@@ -39,7 +51,9 @@ viper.Get("new_config")
 
 ### Test
 
-For each finished apis, it needs to be tested in `tests` folder.
+#### Feature Test
+
+For each finished apis, it needs to be tested features in `tests` folder.
 
 For each utils, it needs to be tested basicly in the same level folder.
 
@@ -47,3 +61,11 @@ The standards are as follows:
 
 - Test all error code's examples which the apis may response.
 - Write notes above this line or subtest including name to explain this test.
+
+#### Benchmark
+
+For some modules, you can write benchmark in test files. Such as redis's benchmark.
+
+#### Pressure Test
+
+You can test the QPS by some tools, such as `ab`.
